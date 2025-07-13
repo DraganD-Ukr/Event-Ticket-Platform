@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table
+@Table(name = "events")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -55,6 +55,9 @@ public class Event {
 
     @ManyToMany(mappedBy = "staffingEvents")
     private List<User> staff = new ArrayList<>();
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    private List<TicketType> ticketTypes = new ArrayList<>();
 
 
     @CreatedDate
