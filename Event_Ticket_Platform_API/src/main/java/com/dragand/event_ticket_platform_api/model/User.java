@@ -48,7 +48,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "event_id")
     )
-    private List<Event> staffingEvent = new ArrayList<>();
+    private List<Event> staffingEvents = new ArrayList<>();
 
 
     @CreatedDate
