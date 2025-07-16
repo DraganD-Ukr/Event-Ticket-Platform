@@ -1,6 +1,6 @@
 package com.dragand.event_ticket_platform_api.service.impl;
 
-import com.dragand.event_ticket_platform_api.dto.CreateEventRequest;
+import com.dragand.event_ticket_platform_api.dto.CreateEventRequestDto;
 import com.dragand.event_ticket_platform_api.exception.ResourceNotFoundException;
 import com.dragand.event_ticket_platform_api.model.Event;
 import com.dragand.event_ticket_platform_api.model.TicketType;
@@ -22,7 +22,7 @@ public class EventServiceImpl implements EventService {
     private final EventRepository eventRepository;
 
     @Override
-    public Event createEvent(UUID organizerId, CreateEventRequest event) {
+    public Event createEvent(UUID organizerId, CreateEventRequestDto event) {
 
         User organizer = userRepository.findById(organizerId)
                 .orElseThrow(() -> new ResourceNotFoundException(
@@ -40,17 +40,17 @@ public class EventServiceImpl implements EventService {
                 }
         ).toList();
 
-        Event newEvent = new Event();
-
-        newEvent.setName(event.getName());
-        newEvent.setStartTime(event.getStartTime());
-        newEvent.setEndTime(event.getEndTime());
-        newEvent.setVenue(event.getVenue());
-        newEvent.setSalesStart(event.getSalesStart());
-        newEvent.setSalesEnd(event.getSalesEnd());
-        newEvent.setStatus(event.getStatus());
-        newEvent.setOrganizer(organizer);
-        newEvent.setTicketTypes(ticketTypesToCreate);
+        Event newEvent = Event.builder()
+                .name(event.getName())
+                .startTime(event.getStartTime())
+                .endTime(event.getEndTime())
+                .venue(event.getVenue())
+                .salesStart(event.getSalesStart())
+                .salesEnd(event.getSalesEnd())
+                .status(event.getStatus())
+                .organizer(organizer)
+                .ticketTypes(ticketTypesToCreate)
+                .build();
 
         return eventRepository.save(newEvent);
     }
